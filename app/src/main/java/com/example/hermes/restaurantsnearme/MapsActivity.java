@@ -2,17 +2,22 @@ package com.example.hermes.restaurantsnearme;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
@@ -118,19 +123,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      * This callback is triggered when the map is ready to be used.
      * This is where we can add markers or lines, add listeners or move the camera. In this case,
      * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-      //  mMap.setMyLocationEnabled(true);
 
         // Add a marker in Sydney and move the camera
-        // LatLng sydney = new LatLng(-34, 151);
-        // mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng sydney = new LatLng(-34, 151);
+        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
     }
 
     /**
@@ -146,7 +148,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     protected void onPause() {
         super.onPause();
-        if (!mPopUpActive){
+        if (!mPopUpActive) {
             mGoogleApiClient.disconnect();
             mPopUpActive = false;
         }
@@ -166,9 +168,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     @Override
                     public void call(Boolean aBoolean) {
                         if (aBoolean) {
-                            // Luam ultima locatie a utilizatorului de la clientul de API.
-                            // Insa verificam daca aceasta locatie este null sau nu.
-                            @SuppressLint("MissingPermission") Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+                            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
                             if (location == null) {
                                 /**
                                  * Here we call the requestLocationUpdates that we set in onCreate that listens
@@ -203,21 +203,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // We add our marker that we created
         mMap.addMarker(options);
         // Here we set the camera to zoom in on our location
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(venuesLatLng,15));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(venuesLatLng, 15));
         foursquareService = retrofit.create(FoursquareService.class);
 
 
-       // venuesLatLng = new LatLng(venuesLatitude, venuesLongitude);
+        // venuesLatLng = new LatLng(venuesLatitude, venuesLongitude);
         double latitude = venuesLatLng.latitude;
         double precision = Math.pow(10, 6);
-        double newLatitude = (precision*latitude)/precision;
+        double newLatitude = (precision * latitude) / precision;
 
         double longitude = venuesLatLng.longitude;
-        double newLongitutde = (precision*longitude)/precision;
+        double newLongitutde = (precision * longitude) / precision;
 
-        venuesLatLng = new LatLng(latitude,longitude);
+        venuesLatLng = new LatLng(latitude, longitude);
 
-        String newLat = venuesLatLng.latitude+","+venuesLatLng.longitude;
+        String newLat = venuesLatLng.latitude + "," + venuesLatLng.longitude;
 
         foursquareService.getAllVenues(Constants.FOURSQUARE_CLIENT_KEY,
                 Constants.FOURSQUARE_CLIENT_SECRET, formatedDate, newLat).enqueue(new Callback<List<FoursquarePlaces>>() {
@@ -231,6 +231,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.addMarker(venuesMarker);
                 }
             }
+
             @Override
             public void onFailure(Call<List<FoursquarePlaces>> call, Throwable t) {
 
