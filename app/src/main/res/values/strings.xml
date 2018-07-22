@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">RestaurantsNearMe</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="museumm">Museumm</string>
+    <string name="hospitals">Hospitals</string>
+    <string name="restaurants">Restaurants</string>
+</resources>
