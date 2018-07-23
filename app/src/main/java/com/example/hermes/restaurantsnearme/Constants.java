@@ -8,6 +8,12 @@ package com.example.hermes.restaurantsnearme;
 public interface Constants {
     String FOURSQUARE_CLIENT_KEY = "0QMPBE5KH1GESWPHW5RQOCNJJXBPA4MVUNOJ2IBGLHXSODRY";
     String FOURSQUARE_CLIENT_SECRET = "KSNBNYE1Z2NNUVWXPJXIZMGBNVALAMJVY0X1UXXWY0B55LQE";
-    int REQUEST_CODE_FSQ_CONNECT = 200;
-    int REQUEST_CODE_FSQ_TOKEN_EXCHANGE = 201;
+    String FOOD_CATEGORY = "4d4b7105d754a06374d81259";
+    int RADIUS = 5000;
+    int LIMIT_RESULTS = 50;
+    String VENUE_TITLE = "title";
+    String VENUE_ADDRESS = "address";
+    String VENUE_CITY = "city";
+    String VENUE_COUNTRY = "country";
+    String USER_LOCATION_TITLE = "Here I am!";
 }

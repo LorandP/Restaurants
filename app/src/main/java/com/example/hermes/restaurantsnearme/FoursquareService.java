@@ -1,12 +1,10 @@
 package com.example.hermes.restaurantsnearme;
 
-import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -16,8 +14,12 @@ import retrofit2.http.Query;
 
 public interface FoursquareService {
     @GET("venues/search")
-    Call<List<FoursquarePlaces>> getAllVenues(@Query("client_id") String clientId,
-                                              @Query("client_secret") String clientSecret,
-                                              @Query("v") String date,
-                                              @Query("ll") String longitudeLatitude);
+    Call<Response> getAllVenues(@Query("intent") String intent,
+                                @Query("radius") int radius,
+                                @Query("ll") String location,
+                                @Query("limit") int amountOfResult,
+                                @Query("categoryId") String venueCategory,
+                                @Query("client_id") String clientId,
+                                @Query("client_secret") String clientSecret,
+                                @Query("v") String date);
 }

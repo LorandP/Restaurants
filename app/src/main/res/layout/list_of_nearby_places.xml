@@ -9,5 +9,4 @@
         android:id="@+id/list_of_nearby_places"
         >
     </ListView>
-
 </LinearLayout>
